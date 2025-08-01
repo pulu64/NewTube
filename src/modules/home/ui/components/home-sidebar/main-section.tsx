@@ -1,5 +1,7 @@
 "use client"
 import { SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem, } from '@/components/ui/sidebar'
+import { SignedIn, useAuth } from '@clerk/clerk-react'
+import { useClerk } from '@clerk/nextjs'
 import { HomeIcon, PlaySquareIcon, FlameIcon } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
@@ -24,6 +26,8 @@ const items = [
 
 ]
 const MainSection = () => {
+  const { isSignedIn } = useAuth();
+  const clerk = useClerk();
   return (
     <SidebarGroup>
       <SidebarGroupContent>
@@ -34,8 +38,11 @@ const MainSection = () => {
                 tooltip={item.title}
                 asChild
                 isActive={false}
-                onClick={() => {
-
+                onClick={(e) => {
+                  if (!isSignedIn && item.auth) {
+                    e.preventDefault();
+                    return clerk.openSignIn();
+                  }
                 }}
               >
                 <Link href={item.url} className='flex items-center gap-4'>
