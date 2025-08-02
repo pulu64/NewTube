@@ -1,17 +1,26 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { UserCircleIcon } from 'lucide-react'
+import { ClapperboardIcon, UserCircleIcon } from 'lucide-react'
 import React from 'react'
 import { SignInButton, SignedIn, SignedOut, SignUpButton, UserButton } from '@clerk/nextjs'
+import Link from 'next/link'
 
 const AuthButton = () => {
 
   return (
     <>
       <SignedIn>
-        <UserButton />
-      </SignedIn>
+        <UserButton>
+          <UserButton.MenuItems>
+            <UserButton.Link
+              href="/studio"
+              label="Studio"
+              labelIcon={<ClapperboardIcon className='size-4' />} />
+            <UserButton.Action label="manageAccount" />
+          </UserButton.MenuItems>
+        </UserButton>
+      </SignedIn >
       <SignedOut>
         <SignInButton>
           <Button
