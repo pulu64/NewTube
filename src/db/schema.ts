@@ -1,5 +1,6 @@
-import { pgTable, text, timestamp, uuid, uniqueIndex, integer } from "drizzle-orm/pg-core";
-import { Relation, relations } from "drizzle-orm";
+import { pgTable, text, timestamp, uuid, uniqueIndex, integer, pgEnum } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+import { createInsertSchema, createSelectSchema, createUpdateSchema } from "drizzle-zod";
 
 export const users = pgTable('users', {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -19,6 +20,8 @@ export const categories = pgTable('categories', {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 }, (t) => [uniqueIndex("name_index").on(t.name)]);
 
+export const videoVisibility = pgEnum("video_visibility", ["public", "private"]);
+
 export const videos = pgTable('videos', {
   id: uuid("id").primaryKey().defaultRandom(),
   title: text("title").notNull(),
@@ -36,8 +39,13 @@ export const videos = pgTable('videos', {
   muxPlaybackId: text("mux_playback_id").unique(),
   muxTrackId: text("mux_track_id").unique(),
   muxTrackStatus: text("mux_track_status"),
+  thumbnailUrl: text("thumbnail_url"),
+  thumbnailKey: text("thumbnail_key"),
+  previewUrl: text("preview_url"),
+  previewKey: text("preview_key"),
+  duration: integer("duration").notNull().default(0),
   // Video Metadata
-  visibility: text("visibility").notNull().default("public"),
+  visibility: videoVisibility("visibility").notNull().default("private"),
   date: timestamp("date").notNull().defaultNow(),
   views: integer("views").notNull().default(0),
   comments: integer("comments").notNull().default(0),
@@ -45,6 +53,13 @@ export const videos = pgTable('videos', {
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 })
+
+export const videoInsertSchema = createInsertSchema(videos);
+export const videoUpdateSchema = createUpdateSchema(videos);
+export const videoSelectSchema = createSelectSchema(videos);
+
+
+
 
 export const userRelations = relations(users, ({ many }) => ({
   videos: many(videos),

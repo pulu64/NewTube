@@ -4,26 +4,35 @@ import { Button } from "@/components/ui/button"
 import { Loader2Icon, PlusIcon } from "lucide-react"
 import { trpc } from "@/trpc/client"
 import { toast } from "sonner"
-import ResponsiveDialog from "@/components/responsive-dialog"
-
+import ResponsiveModal from "@/components/responsive-modal"
 import StudioUploader from "./studio-uploader"
+import { useRouter } from "next/navigation"
 
 const StudioUploadModal = () => {
+  const router = useRouter();
   const utils = trpc.useUtils();
   const create = trpc.videos.create.useMutation({
     onSuccess: () => {
-      toast.success("Video created successfully");
       utils.studio.getMany.invalidate();
+      toast.success("Video created successfully");
     },
     onError: (error) => {
-      toast.error("Something went wrong");
       console.error(error);
-
+      toast.error("Something went wrong");
     },
   });
+
+  const onSuccess = () => {
+    if (!create.data?.video.id) {
+      return;
+    }
+    create.reset();
+    router.push(`/studio/videos/${create.data?.video.id}`);
+  }
+
   return (
     <>
-      <ResponsiveDialog open={!!create.data?.url} onOpenChange={() => {
+      <ResponsiveModal open={!!create.data?.url} onOpenChange={() => {
         create.reset();
       }}
         title="Create Video"
@@ -31,13 +40,11 @@ const StudioUploadModal = () => {
         footer={<Button>Create</Button>}
       >
         {create.data?.url
-          ? <StudioUploader endpoint={create.data.url} onSuccess={() => {
-            create.reset();
-          }} />
+          ? <StudioUploader endpoint={create.data.url} onSuccess={onSuccess} />
           : (
             <Loader2Icon className="size-4 animate-spin" />
           )}
-      </ResponsiveDialog>
+      </ResponsiveModal>
       <Button variant="secondary" onClick={() => create.mutate({
         title: "New Video",
         description: "Video description",
