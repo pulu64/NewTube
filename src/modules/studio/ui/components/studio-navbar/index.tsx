@@ -2,11 +2,12 @@ import { SidebarTrigger } from '@/components/ui/sidebar'
 import Link from 'next/link'
 import React from 'react'
 import { AuthButton } from '@/modules/auth/ui/components/auth-button'
+import { ThemeToggle } from '@/components/theme-toggle'
 import StudioUploadModal from '../studio-upload-modal'
 
 export const StudioNavbar = () => {
   return (
-    <nav className="fixed top-0 left-0 right-0 h-16 bg-white flex items-center px-2 pr-5 z-50 border-b shadow-md">
+    <nav className="fixed top-0 left-0 right-0 h-16 bg-background border-b border-border flex items-center px-2 pr-5 z-50">
       <div className="flex items-center gap-4 w-full">
         <div className="flex items-center flex-shrink-0">
           <SidebarTrigger />
@@ -22,8 +23,9 @@ export const StudioNavbar = () => {
         </div>
         {/* search bar */}
         <div className='flex-1'></div>
-        <div className="flex-shrink-0 items-center flex gap-4">
+        <div className="flex-shrink-0 items-center flex gap-2">
           <StudioUploadModal />
+          <ThemeToggle />
           <AuthButton />
         </div>
       </div>

@@ -54,7 +54,7 @@ const SearchInputSuspense = () => {
           onChange={(e) => setValue(e.target.value)}
           type="text"
           placeholder="Search"
-          className="w-full pl-4 py-2 pr-12 rounded-l-full border focus:outline-none focus:border-blue-500"
+          className="w-full pl-4 py-2 pr-12 rounded-l-full border border-border bg-background text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
         />
         {value && (
           <Button
@@ -62,18 +62,18 @@ const SearchInputSuspense = () => {
             variant="ghost"
             size="icon"
             onClick={() => setValue("")}
-            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full"
+            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full hover:bg-accent"
           >
-            <XIcon className="text-gray-500" />
+            <XIcon className="h-4 w-4 text-muted-foreground" />
           </Button>
         )}
       </div>
       <button
         disabled={!value.trim()}
         type="submit"
-        className="px-5 py-2.5 bg-gray-100 border border-l-0 rounded-r-full hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-5 py-2.5 bg-secondary border border-border border-l-0 rounded-r-full hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       >
-        <SearchIcon className="size-5" />
+        <SearchIcon className="h-5 w-5 text-foreground" />
       </button>
     </form>
   );

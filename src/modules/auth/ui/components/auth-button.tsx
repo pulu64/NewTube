@@ -1,11 +1,14 @@
-"use client";
+'use client'
 
-import { ClapperboardIcon, UserCircleIcon, UserIcon } from "lucide-react"
-import { UserButton, SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
+import { Button } from '@/components/ui/button'
+import { ClapperboardIcon, UserCircleIcon, UserIcon } from 'lucide-react'
+import React from 'react'
 
-import { Button } from "@/components/ui/button"
+import { SignInButton, SignedIn, SignedOut, SignUpButton, UserButton } from '@clerk/nextjs'
+import Link from 'next/link'
 
 export const AuthButton = () => {
+
   return (
     <>
       <SignedIn>
@@ -39,3 +42,5 @@ export const AuthButton = () => {
     </>
   )
 }
+
+
