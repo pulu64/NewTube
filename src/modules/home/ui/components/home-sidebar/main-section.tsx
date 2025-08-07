@@ -1,33 +1,42 @@
-"use client"
-import { SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem, } from '@/components/ui/sidebar'
-import { SignedIn, useAuth } from '@clerk/clerk-react'
-import { useClerk } from '@clerk/nextjs'
-import { HomeIcon, PlaySquareIcon, FlameIcon } from 'lucide-react'
-import Link from 'next/link'
-import React from 'react'
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useAuth, useClerk } from "@clerk/nextjs";
+import { FlameIcon, HomeIcon, PlaySquareIcon } from "lucide-react";
+
+import {
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem
+} from "@/components/ui/sidebar";
 
 const items = [
   {
-    title: "home",
-    url: '/',
-    icon: HomeIcon
+    title: "Home",
+    url: "/",
+    icon: HomeIcon,
   },
   {
-    title: "Subscriptions",
-    url: '/feed/subscriptions',
+    title: "Subscribed",
+    url: "/feed/subscribed",
     icon: PlaySquareIcon,
-    auth: true
+    auth: true,
   },
   {
     title: "Trending",
-    url: '/feed/trending',
-    icon: FlameIcon
+    url: "/feed/trending",
+    icon: FlameIcon,
   },
+];
 
-]
-const MainSection = () => {
-  const { isSignedIn } = useAuth();
+export const MainSection = () => {
   const clerk = useClerk();
+  const { isSignedIn } = useAuth();
+  const pathname = usePathname();
+
   return (
     <SidebarGroup>
       <SidebarGroupContent>
@@ -37,7 +46,7 @@ const MainSection = () => {
               <SidebarMenuButton
                 tooltip={item.title}
                 asChild
-                isActive={false}
+                isActive={pathname === item.url}
                 onClick={(e) => {
                   if (!isSignedIn && item.auth) {
                     e.preventDefault();
@@ -45,9 +54,9 @@ const MainSection = () => {
                   }
                 }}
               >
-                <Link href={item.url} className='flex items-center gap-4'>
+                <Link prefetch href={item.url} className="flex items-center gap-4">
                   <item.icon />
-                  <span className='text-sm'>{item.title}</span>
+                  <span className="text-sm">{item.title}</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -57,5 +66,3 @@ const MainSection = () => {
     </SidebarGroup>
   )
 }
-
-export default MainSection

@@ -2,12 +2,19 @@
 
 import { Button } from '@/components/ui/button'
 import { ClapperboardIcon, UserCircleIcon } from 'lucide-react'
-import React from 'react'
+import React, { Suspense } from 'react'
 import { SignInButton, SignedIn, SignedOut, SignUpButton, UserButton } from '@clerk/nextjs'
 import Link from 'next/link'
 
-const AuthButton = () => {
+// 加载占位符组件
+const AuthButtonSkeleton = () => (
+  <div className="flex-shrink-0 items-center flex gap-4">
+    <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse" />
+  </div>
+);
 
+// 主要的认证按钮组件
+const AuthButtonContent = () => {
   return (
     <>
       <SignedIn>
@@ -30,8 +37,16 @@ const AuthButton = () => {
           ><UserCircleIcon />Sign in</Button>
         </SignInButton >
       </SignedOut>
-
     </>
+  )
+}
+
+// 包装组件，使用 Suspense 处理水合
+const AuthButton = () => {
+  return (
+    <Suspense fallback={<AuthButtonSkeleton />}>
+      <AuthButtonContent />
+    </Suspense>
   )
 }
 

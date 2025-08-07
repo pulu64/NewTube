@@ -1,5 +1,5 @@
 import { HydrateClient, trpc } from "@/trpc/server";
-import VideoView from "@/modules/studio/video-view";
+import VideoView from "@/modules/studio/ui/views/video-view";
 
 export const dynamic = "force-dynamic";
 

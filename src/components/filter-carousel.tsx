@@ -16,7 +16,7 @@ interface FilterCarouselProps {
   }[]
 }
 
-const FilterCarousel = ({ value, data, isLoading, onSelect }: FilterCarouselProps) => {
+export const FilterCarousel = ({ value, data, isLoading, onSelect }: FilterCarouselProps) => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
@@ -50,7 +50,7 @@ const FilterCarousel = ({ value, data, isLoading, onSelect }: FilterCarouselProp
         <CarouselContent className="-ml-3">
           {!isLoading && (
             <CarouselItem
-              onClick={() => onSelect('all')}
+              onClick={() => onSelect(null)}
               className="pl-3 basis-auto"
             >
               <Badge
@@ -95,4 +95,3 @@ const FilterCarousel = ({ value, data, isLoading, onSelect }: FilterCarouselProp
   )
 }
 
-export default FilterCarousel

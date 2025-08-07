@@ -1,16 +1,31 @@
 "use client"
 import { trpc } from "@/trpc/client";
 import { DEFAULT_LIMIT } from "@/constants";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { format } from "date-fns";
 import { ErrorBoundary } from "react-error-boundary";
 import { InfiniteScroll } from "@/components/infinite-scroll";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
-import VideoThumbnail from "@/modules/videos/ui/components/video-thumbnail";
+import { VideoThumbnail } from "@/modules/videos/ui/components/video-thumbnail";
 import { snakeCaseToTitle } from "@/lib/utils";
 import { GlobeIcon, LockIcon } from "lucide-react";
+
+// 客户端专用的日期组件，防止水合错误
+const ClientDate = ({ date }: { date: string | Date }) => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return <Skeleton className="h-4 w-20" />;
+  }
+
+  return <span>{format(new Date(date), "d MMM yyyy")}</span>;
+};
 
 
 const VideosSection = () => {
@@ -159,7 +174,7 @@ const VideosSectionSuspense = () => {
                       </div>
                     </TableCell>
                     <TableCell className="text-sm truncate">
-                      {format(new Date(item.createdAt), "d MMM yyyy")}
+                      <ClientDate date={item.createdAt} />
                     </TableCell>
                     <TableCell className="text-right">{item.views}</TableCell>
                     <TableCell className="text-right">{item.comments}</TableCell>

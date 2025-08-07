@@ -1,13 +1,14 @@
 'use client';
 // ^-- to make sure we can mount the Provider from a server component
 import type { QueryClient } from '@tanstack/react-query';
+import superjson from "superjson";
 import { QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
 import { createTRPCReact } from '@trpc/react-query';
 import { useState } from 'react';
 import { makeQueryClient } from './query-client';
 import type { AppRouter } from './routers/_app';
-import superjson from 'superjson';
+import { APP_URL } from '@/constants';
 export const trpc = createTRPCReact<AppRouter>();
 let clientQueryClientSingleton: QueryClient;
 function getQueryClient() {
@@ -21,8 +22,8 @@ function getQueryClient() {
 function getUrl() {
   const base = (() => {
     if (typeof window !== 'undefined') return '';
-    if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
-    return 'http://localhost:3000';
+    // Crucial to modify in .env to production domain (including protocol)
+    return APP_URL;
   })();
   return `${base}/api/trpc`;
 }
@@ -42,12 +43,18 @@ export function TRPCProvider(
         httpBatchLink({
           transformer: superjson,
           url: getUrl(),
-          // 多客户端支持：
-          // 如果你的应用有多个客户端（Web、移动端、桌面端），这个头可以帮助区分它们。
-          headers: async () => {
+          async headers() {
             const headers = new Headers();
-            headers.set('x-trpc-source', 'nextjs-react');
+            headers.set("x-trpc-source", "nextjs-react");
             return headers;
+          },
+          // 添加重试和超时配置
+          fetch: (url, options) => {
+            return fetch(url, {
+              ...options,
+              // 添加超时
+              signal: AbortSignal.timeout(10000), // 10秒超时
+            });
           },
         }),
       ],

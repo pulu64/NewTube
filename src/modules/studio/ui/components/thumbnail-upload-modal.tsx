@@ -1,4 +1,4 @@
-import ResponsiveModal from "@/components/responsive-modal"
+import { ResponsiveModal } from "@/components/responsive-modal"
 import { UploadDropzone } from "@/lib/uploadthing"
 import { trpc } from "@/trpc/client"
 import { toast } from "sonner"
@@ -10,7 +10,7 @@ interface ThumbnailUploadModalProps {
 }
 
 
-const ThumbnailUploadModal = ({ videoId, open, onOpenChange }: ThumbnailUploadModalProps) => {
+export const ThumbnailUploadModal = ({ videoId, open, onOpenChange }: ThumbnailUploadModalProps) => {
   const utils = trpc.useUtils()
 
   const uploadComplete = (fileUrl: string) => {
@@ -36,5 +36,3 @@ const ThumbnailUploadModal = ({ videoId, open, onOpenChange }: ThumbnailUploadMo
   )
 
 }
-
-export default ThumbnailUploadModal

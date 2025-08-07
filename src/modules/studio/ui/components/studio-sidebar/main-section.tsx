@@ -1,6 +1,6 @@
 "use client"
 import { SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem, } from '@/components/ui/sidebar'
-import { SignedIn, useAuth } from '@clerk/clerk-react'
+import { useAuth } from '@clerk/clerk-react'
 import { useClerk } from '@clerk/nextjs'
 import { HomeIcon, PlaySquareIcon, FlameIcon } from 'lucide-react'
 import Link from 'next/link'
@@ -14,7 +14,7 @@ const items = [
   },
   {
     title: "Subscriptions",
-    url: '/feed/subscriptions',
+    url: '/feed/subscribed',
     icon: PlaySquareIcon,
     auth: true
   },

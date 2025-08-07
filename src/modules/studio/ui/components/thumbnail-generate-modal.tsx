@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { trpc } from "@/trpc/client";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import ResponsiveModal from "@/components/responsive-modal";
+import { ResponsiveModal } from "@/components/responsive-modal";
 import {
   Form,
   FormControl,

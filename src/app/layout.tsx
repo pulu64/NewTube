@@ -21,7 +21,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider afterSignOutUrl="/">
+    <ClerkProvider
+      afterSignOutUrl="/"
+      appearance={{
+        elements: {
+          userButtonAvatarBox: "w-8 h-8",
+          userButtonTrigger: "focus:shadow-none",
+        }
+      }}
+    >
       <html lang="en">
         <body
           className={inter.className}

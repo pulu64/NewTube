@@ -1,7 +1,7 @@
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import Link from 'next/link'
 import React from 'react'
-import SearchInput from './search-input'
+import { SearchInput } from './search-input'
 import AuthButton from '@/modules/auth/ui/components/auth-button'
 
 const Homenavbar = () => {

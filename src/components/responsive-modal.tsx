@@ -11,7 +11,7 @@ interface ResponsiveModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
-const ResponsiveModal = ({ children, open, title, description, footer, onOpenChange }: ResponsiveModalProps) => {
+export const ResponsiveModal = ({ children, open, title, description, footer, onOpenChange }: ResponsiveModalProps) => {
   const isMobile = useIsMobile();
 
   if (!isMobile) {
@@ -38,5 +38,3 @@ const ResponsiveModal = ({ children, open, title, description, footer, onOpenCha
   )
 
 }
-
-export default ResponsiveModal
