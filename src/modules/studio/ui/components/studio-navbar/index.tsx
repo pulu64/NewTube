@@ -1,10 +1,10 @@
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import Link from 'next/link'
 import React from 'react'
-import AuthButton from '@/modules/auth/ui/components/auth-button'
+import { AuthButton } from '@/modules/auth/ui/components/auth-button'
 import StudioUploadModal from '../studio-upload-modal'
 
-const Homenavbar = () => {
+export const StudioNavbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 h-16 bg-white flex items-center px-2 pr-5 z-50 border-b shadow-md">
       <div className="flex items-center gap-4 w-full">
@@ -31,5 +31,3 @@ const Homenavbar = () => {
     </nav>
   )
 }
-
-export default Homenavbar

@@ -26,7 +26,7 @@ const items = [
   },
 
 ]
-const PersonalSection = () => {
+export const PersonalSection = () => {
   const { isSignedIn } = useAuth();
   const clerk = useClerk();
   return (
@@ -59,5 +59,3 @@ const PersonalSection = () => {
     </SidebarGroup>
   )
 }
-
-export default PersonalSection
